@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paper Viewer</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #f4f1ec;
+      font-family: 'Georgia', serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #error {
+      display: none;
+      margin: auto;
+      text-align: center;
+      color: #555;
+      font-size: 1.1rem;
+      padding: 2rem;
+    }
+
+    #error a {
+      color: #2a5298;
+    }
+
+    iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="error">
+    <p>No PDF specified or PDF could not be loaded.</p>
+    <p style="margin-top:0.5rem; font-size:0.9rem;">
+      URL should look like:<br>
+      <code>viewer.html?pdf=bt_nt_paper_01.pdf</code>
+    </p>
+  </div>
+
+  <iframe id="pdfFrame"></iframe>
+
+  <script>
+    // Read the ?pdf= parameter from the URL
+    const params = new URLSearchParams(window.location.search);
+    const pdfName = params.get('pdf');
+
+    if (pdfName) {
+      // PDFs are in this folder in your repo — adjust the path if needed
+      const pdfPath = 'papers/BT_NT_PDFs/' + pdfName;
+      document.getElementById('pdfFrame').src = pdfPath;
+    } else {
+      document.getElementById('pdfFrame').style.display = 'none';
+      document.getElementById('error').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
