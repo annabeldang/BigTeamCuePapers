@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BigTeam Cue Papers</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #f7f5f0;
+      font-family: 'Georgia', serif;
+      color: #2c2c2c;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: normal;
+      margin-bottom: 2rem;
+      color: #1a1a1a;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.75rem;
+    }
+
+    .groups {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .group {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .group-header {
+      background: #2a5298;
+      color: white;
+      padding: 0.6rem 1rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+    }
+
+    .links {
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .links a {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      background: #f0f4ff;
+      color: #2a5298;
+      text-decoration: none;
+      font-size: 0.82rem;
+      border-radius: 3px;
+      border: 1px solid #c5d3f0;
+      font-family: monospace;
+    }
+
+    .links a:hover {
+      background: #2a5298;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>BigTeam Cue Papers</h1>
+  <div class="groups" id="groups"></div>
+
+  <script>
+    const BASE = 'https://annabeldang.github.io/BigTeamCuePapers/viewer.html?pdf=';
+
+    const groups = [
+      { label: 'BT_NT',  prefix: 'bt_nt_paper_', folder: 'BT_NT_PDFs' },
+      { label: 'BT_TS',  prefix: 'bt_ts_paper_', folder: 'BT_TS_PDFs' },
+      { label: 'ST_NT',  prefix: 'st_nt_paper_', folder: 'ST_NT_PDFs' },
+      { label: 'ST_TS',  prefix: 'st_ts_paper_', folder: 'ST_TS_PDFs' },
+      { label: 'BT',     prefix: 'bt_paper_',     folder: 'BT_PDFs'    },
+      { label: 'ST',     prefix: 'st_paper_',     folder: 'ST_PDFs'    },
+    ];
+
+    const container = document.getElementById('groups');
+
+    groups.forEach(({ label, prefix, folder }) => {
+      const div = document.createElement('div');
+      div.className = 'group';
+
+      const header = document.createElement('div');
+      header.className = 'group-header';
+      header.textContent = label;
+
+      const links = document.createElement('div');
+      links.className = 'links';
+
+      for (let i = 1; i <= 50; i++) {
+        const num = String(i).padStart(2, '0');
+        const filename = `${prefix}${num}.pdf`;
+        const a = document.createElement('a');
+        a.href = BASE + folder + '/' + filename;
+        a.textContent = num;
+        a.target = '_blank';
+        links.appendChild(a);
+      }
+
+      div.appendChild(header);
+      div.appendChild(links);
+      container.appendChild(div);
+    });
+  </script>
+
+</body>
+</html>

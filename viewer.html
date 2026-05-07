@@ -53,8 +53,8 @@
     const pdfName = params.get('pdf');
 
     if (pdfName) {
-      // PDFs are in this folder in your repo — adjust the path if needed
-      const pdfPath = 'papers/BT_NT_PDFs/' + pdfName;
+      // Use the full path passed in via ?pdf=
+      const pdfPath = pdfName;
       document.getElementById('pdfFrame').src = pdfPath;
     } else {
       document.getElementById('pdfFrame').style.display = 'none';
