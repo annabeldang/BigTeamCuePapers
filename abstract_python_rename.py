@@ -2,22 +2,22 @@ import os
 
 folders = [
     (
-        r"C:\Users\$p&radmin$\Documents\GitHub\BigTeamCues\papers\BT_NT_PDFs",
+        r"/Users/beheo/Desktop/GitHub/BigTeamCuePapers/BT_NT_PDFs",
         "abstract_",
         1
     ),
     (
-        r"C:\Users\$p&radmin$\Documents\GitHub\BigTeamCues\papers\ST_NT_PDFs",
+        r"/Users/beheo/Desktop/GitHub/BigTeamCuePapers/ST_NT_PDFs",
         "abstract_",
         51
     ),
     (
-        r"C:\Users\$p&radmin$\Documents\GitHub\BigTeamCues\papers\BT_TS_PDFs",
+        r"/Users/beheo/Desktop/GitHub/BigTeamCuePapers/BT_TS_PDFs",
         "abstract_",
         101
     ),
     (
-        r"C:\Users\$p&radmin$\Documents\GitHub\BigTeamCues\papers\ST_TS_PDFs",
+        r"/Users/beheo/Desktop/GitHub/BigTeamCuePapers/ST_TS_PDFs",
         "abstract_",
         151
     ),
