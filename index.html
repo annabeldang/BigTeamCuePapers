@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BigTeam Cue Papers</title>
+  <title>BTC Papers</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -71,22 +71,24 @@
 </head>
 <body>
 
-<h1>BigTeam Cue Papers</h1>
+<h1>BTC Papers</h1>
 <div class="groups" id="groups"></div>
 
 <script>
-  const BASE = 'https://annabeldang.github.io/BigTeamCuePapers/viewer.html?pdf=';
+  const BASE = 'https://annabeldang.github.io/BTCPapers/viewer.html?pdf=';
 
   const groups = [
-    { label: 'BT_NT', folder: 'BT_NT_PDFs', offset: 0 },
-    { label: 'ST_NT', folder: 'ST_NT_PDFs', offset: 50 },
-    { label: 'BT_TS', folder: 'BT_TS_PDFs', offset: 100 },
-    { label: 'ST_TS', folder: 'ST_TS_PDFs', offset: 150 }
+    { label: 'BT_NT', folder: '1_PDFs', offset: 0,   prefix: 'abstract' },
+    { label: 'ST_NT', folder: '2_PDFs', offset: 50,  prefix: 'abstract' },
+    { label: 'BT_TS', folder: '3_PDFs', offset: 100, prefix: 'abstract' },
+    { label: 'ST_TS', folder: '4_PDFs', offset: 150, prefix: 'abstract' },
+    { label: 'BT',    folder: '5_PDFs', offset: 0,   prefix: 'pdf' },
+    { label: 'ST',    folder: '6_PDFs', offset: 50,  prefix: 'pdf' },
   ];
 
   const container = document.getElementById('groups');
 
-  groups.forEach(({ label, folder, offset }) => {
+  groups.forEach(({ label, folder, offset, prefix }) => {
     const div = document.createElement('div');
     div.className = 'group';
 
@@ -102,7 +104,7 @@
       const fileNum = String(globalNum).padStart(3, '0');
       const displayNum = String(i).padStart(2, '0');
 
-      const filename = `abstract_${fileNum}.pdf`;
+      const filename = `${prefix}_${fileNum}.pdf`;
 
       const a = document.createElement('a');
       a.href = BASE + folder + '/' + filename;
