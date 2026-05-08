@@ -71,49 +71,52 @@
 </head>
 <body>
 
-  <h1>BigTeam Cue Papers</h1>
-  <div class="groups" id="groups"></div>
+<h1>BigTeam Cue Papers</h1>
+<div class="groups" id="groups"></div>
 
-  <script>
-    const BASE = 'https://annabeldang.github.io/BigTeamCuePapers/viewer.html?pdf=';
+<script>
+  const BASE = 'https://annabeldang.github.io/BigTeamCuePapers/viewer.html?pdf=';
 
-    const groups = [
-      { label: 'BT_NT',  prefix: 'bt_nt_paper_', folder: 'BT_NT_PDFs' },
-      { label: 'BT_TS',  prefix: 'bt_ts_paper_', folder: 'BT_TS_PDFs' },
-      { label: 'ST_NT',  prefix: 'st_nt_paper_', folder: 'ST_NT_PDFs' },
-      { label: 'ST_TS',  prefix: 'st_ts_paper_', folder: 'ST_TS_PDFs' },
-      { label: 'BT',     prefix: 'bt_paper_',     folder: 'BT_PDFs'    },
-      { label: 'ST',     prefix: 'st_paper_',     folder: 'ST_PDFs'    },
-    ];
+  const groups = [
+    { label: 'BT_NT', folder: 'BT_NT_PDFs', offset: 0 },
+    { label: 'ST_NT', folder: 'ST_NT_PDFs', offset: 50 },
+    { label: 'BT_TS', folder: 'BT_TS_PDFs', offset: 100 },
+    { label: 'ST_TS', folder: 'ST_TS_PDFs', offset: 150 }
+  ];
 
-    const container = document.getElementById('groups');
+  const container = document.getElementById('groups');
 
-    groups.forEach(({ label, prefix, folder }) => {
-      const div = document.createElement('div');
-      div.className = 'group';
+  groups.forEach(({ label, folder, offset }) => {
+    const div = document.createElement('div');
+    div.className = 'group';
 
-      const header = document.createElement('div');
-      header.className = 'group-header';
-      header.textContent = label;
+    const header = document.createElement('div');
+    header.className = 'group-header';
+    header.textContent = label;
 
-      const links = document.createElement('div');
-      links.className = 'links';
+    const links = document.createElement('div');
+    links.className = 'links';
 
-      for (let i = 1; i <= 50; i++) {
-        const num = String(i).padStart(2, '0');
-        const filename = `${prefix}${num}.pdf`;
-        const a = document.createElement('a');
-        a.href = BASE + folder + '/' + filename;
-        a.textContent = num;
-        a.target = '_blank';
-        links.appendChild(a);
-      }
+    for (let i = 1; i <= 50; i++) {
+      const globalNum = i + offset;
+      const fileNum = String(globalNum).padStart(3, '0');
+      const displayNum = String(i).padStart(2, '0');
 
-      div.appendChild(header);
-      div.appendChild(links);
-      container.appendChild(div);
-    });
-  </script>
+      const filename = `abstract_${fileNum}.pdf`;
+
+      const a = document.createElement('a');
+      a.href = BASE + folder + '/' + filename;
+      a.textContent = displayNum;
+      a.target = '_blank';
+
+      links.appendChild(a);
+    }
+
+    div.appendChild(header);
+    div.appendChild(links);
+    container.appendChild(div);
+  });
+</script>
 
 </body>
 </html>
