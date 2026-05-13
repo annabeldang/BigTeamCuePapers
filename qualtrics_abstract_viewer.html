@@ -1,0 +1,73 @@
+Qualtrics.SurveyEngine.addOnload(function() {
+
+    // ---- Round number ----
+    var round = 'r1';
+    // -----------------------------------------------------
+    // 1. Get condition and build folder paths
+    var condition = '${e://Field/condition}';
+    var btFolder  = (condition === 'team_shown') ? '3_PDFs' : '1_PDFs';
+    var stFolder  = (condition === 'team_shown') ? '4_PDFs' : '2_PDFs';
+
+    // ---- CHANGE base URL to GitHub Pages URL ----
+    var baseURL = 'https://annabeldang.github.io/BTCPapers/';
+    // --------------------------------------------------
+
+    // 2. Initialize pools on round 1, retrieve on subsequent rounds
+    var btPool = JSON.parse('${e://Field/btPool}' || 'null');
+    var stPool = JSON.parse('${e://Field/stPool}' || 'null');
+
+    if (!btPool) {
+        btPool = Array.from({length: 50}, (_, i) => i + 1);
+        stPool = Array.from({length: 50}, (_, i) => i + 1);
+    }
+
+    // 3. Pick a random unseen abstract from each pool
+    var btIdx  = Math.floor(Math.random() * btPool.length);
+    var stIdx  = Math.floor(Math.random() * stPool.length);
+    var btPick = btPool.splice(btIdx, 1)[0];
+    var stPick = stPool.splice(stIdx, 1)[0];
+
+    // 4. Save updated pools back to embedded data
+    Qualtrics.SurveyEngine.setJSEmbeddedData('btPool', JSON.stringify(btPool));
+    Qualtrics.SurveyEngine.setJSEmbeddedData('stPool', JSON.stringify(stPool));
+
+    // 5. Record which abstracts were chosen this round
+    Qualtrics.SurveyEngine.setJSEmbeddedData('btChosen_' + round, btPick);
+    Qualtrics.SurveyEngine.setJSEmbeddedData('stChosen_' + round, stPick);
+
+    // 6. Randomly assign BT paper to left or right
+    var btOnLeft = Math.random() < 0.5;
+    Qualtrics.SurveyEngine.setJSEmbeddedData('side_' + round, btOnLeft ? 'bt_left' : 'bt_right');
+
+	// 7. Build full PDF URLs using new filename scheme
+
+	var btNumber, stNumber;
+
+	if (condition === 'team_shown') {
+    // BT_TS = 101–150
+    btNumber = btPick + 100;
+
+    // ST_TS = 151–200
+    stNumber = stPick + 150;
+	} else {
+    // BT_NT = 001–050
+    btNumber = btPick;
+
+    // ST_NT = 051–100
+    stNumber = stPick + 50;
+	}
+
+	var btURL = baseURL + 'viewer.html?pdf=' + btFolder +
+    '/abstract_' + String(btNumber).padStart(3, '0') + '.pdf';
+
+	var stURL = baseURL + 'viewer.html?pdf=' + stFolder +
+    '/abstract_' + String(stNumber).padStart(3, '0') + '.pdf';
+
+    // 8. Assign URLs to left and right iframes
+    var leftURL  = btOnLeft ? btURL : stURL;
+    var rightURL = btOnLeft ? stURL : btURL;
+
+    document.getElementById('left-frame').src  = leftURL;
+    document.getElementById('right-frame').src = rightURL;
+
+});

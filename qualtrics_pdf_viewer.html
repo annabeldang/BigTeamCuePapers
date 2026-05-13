@@ -1,0 +1,30 @@
+Qualtrics.SurveyEngine.addOnload(function() {
+    var round = 'r1';
+    var that = this;
+
+    this.questionclick = function(event, element) {
+        var selected = that.getSelectedChoices();
+        if (!selected || selected.length === 0) return;
+
+        var choseLeft = (selected[0] === '1');  // Choice 1 = Abstract A (left)
+
+        var sideAssign = Qualtrics.SurveyEngine.getJSEmbeddedData('side_' + round);
+        var btOnLeft   = (sideAssign === 'bt_left');
+        var choseBT    = (choseLeft === btOnLeft);
+        var chosenTeam = choseBT ? 'bt' : 'st';
+
+        var chosenNum = choseBT
+            ? Qualtrics.SurveyEngine.getJSEmbeddedData('btChosen_' + round)
+            : Qualtrics.SurveyEngine.getJSEmbeddedData('stChosen_' + round);
+
+        var baseURL = 'https://annabeldang.github.io/BTCPapers/';
+
+        // Full PDFs: 5_PDFs = pdf_001–050 (BT), 6_PDFs = pdf_051–100 (ST)
+        var folder  = choseBT ? '5_PDFs' : '6_PDFs';
+        var pdfNum  = choseBT ? parseInt(chosenNum, 10) : parseInt(chosenNum, 10) + 50;
+        var fullURL = baseURL + 'viewer.html?pdf=' + folder + '/pdf_' + String(pdfNum).padStart(3, '0') + '.pdf';
+
+        Qualtrics.SurveyEngine.setJSEmbeddedData('fullPDF_chosen_' + round, chosenTeam);
+        Qualtrics.SurveyEngine.setJSEmbeddedData('fullPDF_url_' + round, fullURL);
+    };
+});
